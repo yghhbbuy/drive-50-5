@@ -25,7 +25,7 @@ jobs:
 
       - name: 删除 OneDrive 文件夹
         env:
-          USER_ACCOUNTSD: ${{ secrets.USER_ACCOUNTSD }}  # 包含多个帐户信息的 JSON 字符串
+          USER_ACCOUNTS: ${{ secrets.USER_ACCOUNTS }}  # 包含多个帐户信息的 JSON 字符串
         run: |
           python - <<EOF
           import os
@@ -35,7 +35,7 @@ jobs:
           import json
           from concurrent.futures import ThreadPoolExecutor, as_completed
 
-          USER_ACCOUNTSD = json.loads(os.getenv("USER_ACCOUNTSD"))
+          USER_ACCOUNTS = json.loads(os.getenv("USER_ACCOUNTS"))
 
           def delete_folder(folder_path, access_token, user_email):
               url = f"https://graph.microsoft.com/v1.0/me/drive/root:/{folder_path}"
@@ -99,7 +99,7 @@ jobs:
 
           # 使用线程池并行处理多个帐户
           with ThreadPoolExecutor(max_workers=50) as executor:
-              future_to_account = {executor.submit(process_account, account): account for account in USER_ACCOUNTSD}
+              future_to_account = {executor.submit(process_account, account): account for account in USER_ACCOUNTS}
               for future in as_completed(future_to_account):
                   account = future_to_account[future]
                   try:
