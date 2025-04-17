@@ -2,7 +2,7 @@ name: 并行50删除4 OneDrive-5
 
 on:
   schedule:
-    - cron: '47 2 */1 * *'  # 每周运行一次
+    - cron: '7 */3 * * *'  # 每周运行一次
   workflow_dispatch:  # 允许手动触发
 
 jobs:
